@@ -84,7 +84,7 @@ export default function Index() {
                     limparCampos();
             }
             
-            setNomeComparando('')
+        setNomeComparando('')
         listar();
         loading.current.complete()
     }
