@@ -47,9 +47,9 @@ export default function Index() {
 
     async function inserir () {
         loading.current.continuousStart();
-        if(nome !== ('') && categoria !== ('') && avaliacao !== (NaN) && avaliacao !==('') 
-           && precoDe !== ('') && precoDe !== (NaN) && precoPor !== ('') && precoPor !== (NaN) 
-           && estoque !== ('') && estoque !== (NaN) && img !== ('') && desc !== ('')){
+        if(nome !== ('') && categoria !== ('') && avaliacao !== (isNaN) && avaliacao !==('') 
+           && precoDe !== ('') && precoDe !== (isNaN) && precoPor !== ('') && precoPor !== (isNaN) 
+           && estoque !== ('') && estoque !== (isNaN) && img !== ('') && desc !== ('')){
             if(idAlterando === 0){
                 let r = await api.inserir(nome, categoria, precoDe, precoPor, avaliacao, desc, estoque, img);
                 if(r.erro)
