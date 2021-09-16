@@ -11,6 +11,7 @@ export default class Api {
 
     async comparar(nomeproduto) {
         let r = await api.get(`/produto/${nomeproduto}`);
+        console.log (r.data);
         return r.data;
     }
 

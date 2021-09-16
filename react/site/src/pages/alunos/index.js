@@ -48,7 +48,8 @@ export default function Index() {
     async function inserir () {
         loading.current.continuousStart();
         comparar(nome);
-        if(nome === (''))
+        console.log(nomeComparando);
+        if(nome === ('') || nome === nomeComparando)
             return toast.error('nome inválido');
         if (categoria === (''))
             return toast.error('Categoria Inválida');
@@ -64,8 +65,6 @@ export default function Index() {
             return toast.error('Imagem Inválida');
         if (desc === (''))
             return toast.error('Descrição Inválida')
-        if (nomeComparando === nome)
-            return toast.error('Produto já foi inserido')
             setNomeComparando('')
             if(idAlterando === 0){
                 let r = await api.inserir(nome, categoria, precoDe, precoPor, avaliacao, desc, estoque, img);
@@ -82,6 +81,7 @@ export default function Index() {
                 toast.dark(r.erro)
                 else
                     toast.dark('Produto alterado!')
+                    limparCampos();
             }
             
             setNomeComparando('')
