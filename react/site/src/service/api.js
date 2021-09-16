@@ -9,6 +9,11 @@ export default class Api {
         return r.data;
     }
 
+    async comparar(nomeproduto) {
+        let r = await api.get(`/produto/${nomeproduto}`);
+        return r.data;
+    }
+
     async inserir(nome, categoria, precode, precopor, avaliacao, descricao, qtdestoque, imagem ) {
         let r = await api.post(`/produto`, { nome, categoria, precode, precopor, avaliacao, descricao, qtdestoque, imagem });
         return r.data;

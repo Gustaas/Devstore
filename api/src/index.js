@@ -16,6 +16,17 @@ app.get('/produto', async(req, resp) => {
     }
 })
 
+app.get('/produto/:nome', async(req, resp) => {
+    try{
+        let {nome} = req.params
+
+        let produtos = await db.tb_produto.findOne({ where: { nm_produto: nome } });
+        resp.send(produtos.nm_produto)
+    } catch (e) {
+        resp.send({ erro: e.toString() })
+    }
+})
+
 app.post('/produto', async(req, resp) => {
     try{
 

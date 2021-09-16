@@ -28,6 +28,7 @@ export default function Index() {
     const [estoque, setEstoque] = useState('');
     const [img, setImg] = useState('');
     const [desc, setDesc] = useState('');
+    const [nomeComparando, setNomeComparando] = useState('');
     const [idAlterando, setIdAlterando] = useState(0)
     const loading = useRef();
 
@@ -37,7 +38,6 @@ export default function Index() {
         let r = await api.listar();
         setProduto(r);
         loading.current.complete();
-
     }
 
     useEffect(() => { 
@@ -47,15 +47,35 @@ export default function Index() {
 
     async function inserir () {
         loading.current.continuousStart();
-        if(nome !== ('') && categoria !== ('') && avaliacao !== (isNaN) && avaliacao !==('') 
-           && precoDe !== ('') && precoDe !== (isNaN) && precoPor !== ('') && precoPor !== (isNaN) 
-           && estoque !== ('') && estoque !== (isNaN) && img !== ('') && desc !== ('')){
+        comparar(nome);
+        if(nome === (''))
+            return toast.error('nome inválido');
+        if (categoria === (''))
+            return toast.error('Categoria Inválida');
+        if (avaliacao === (isNaN) || avaliacao ===('') || avaliacao < 0)
+            return toast.error('avaliacao inválida');
+        if (precoDe === ('') || precoDe === (isNaN) || precoDe < 0) 
+            return toast.error('Preço de Inválido');
+        if (precoPor === ('') || precoPor === (isNaN) || precoPor < 0)
+            return toast.error('Preço por inválido');
+        if (estoque === ('') || estoque === (isNaN) || estoque < 0)
+            return toast.error('estoque invalido');  
+        if (img === (''))
+            return toast.error('Imagem Inválida');
+        if (desc === (''))
+            return toast.error('Descrição Inválida')
+        if (nomeComparando === nome)
+            return toast.error('Produto já foi inserido')
+            setNomeComparando('')
             if(idAlterando === 0){
                 let r = await api.inserir(nome, categoria, precoDe, precoPor, avaliacao, desc, estoque, img);
                 if(r.erro)
                     toast.dark(r.erro)
-                else
+                else {
                     toast.dark('Produto inserido!')
+                    limparCampos();
+                }
+                
             } else {
                 let r = await api.alterando( idAlterando, nome, categoria, precoDe, precoPor, avaliacao, desc, estoque, img);
                 if (r.erro)
@@ -63,12 +83,15 @@ export default function Index() {
                 else
                     toast.dark('Produto alterado!')
             }
-            limparCampos();
-        } else (
-                toast.dark('Campos inválidos')
-        )
+            
+            setNomeComparando('')
         listar();
         loading.current.complete()
+    }
+
+    async function comparar (nomeproduto) {
+        let r = await api.comparar(nomeproduto);
+        setNomeComparando(r);
     }
 
     function limparCampos () {
