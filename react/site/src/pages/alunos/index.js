@@ -28,7 +28,6 @@ export default function Index() {
     const [estoque, setEstoque] = useState('');
     const [img, setImg] = useState('');
     const [desc, setDesc] = useState('');
-    const [nomeComparando, setNomeComparando] = useState('');
     const [idAlterando, setIdAlterando] = useState(0)
     const loading = useRef();
 
@@ -47,9 +46,7 @@ export default function Index() {
 
     async function inserir () {
         loading.current.continuousStart();
-        comparar(nome);
-        console.log(nomeComparando);
-        if(nome === ('') || nome === nomeComparando)
+        if(nome === (''))
             return toast.error('nome inválido');
         if (categoria === (''))
             return toast.error('Categoria Inválida');
@@ -65,7 +62,6 @@ export default function Index() {
             return toast.error('Imagem Inválida');
         if (desc === (''))
             return toast.error('Descrição Inválida')
-            setNomeComparando('')
             if(idAlterando === 0){
                 let r = await api.inserir(nome, categoria, precoDe, precoPor, avaliacao, desc, estoque, img);
                 if(r.erro)
@@ -83,15 +79,8 @@ export default function Index() {
                     toast.dark('Produto alterado!')
                     limparCampos();
             }
-            
-        setNomeComparando('')
         listar();
         loading.current.complete()
-    }
-
-    async function comparar (nomeproduto) {
-        let r = await api.comparar(nomeproduto);
-        setNomeComparando(r);
     }
 
     function limparCampos () {

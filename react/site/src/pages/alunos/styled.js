@@ -49,7 +49,6 @@ const Container = styled.div`
     .agp-input-desc {
         display: flex;
         flex-direction: row;
-        align-items: center;
         flex-grow: 1;
     }
 
